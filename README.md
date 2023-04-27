@@ -5,9 +5,9 @@
 이 API는 적요분류를 위해 데이터(.csv)을 검사하고 서버의 적요분류 스케쥴링 프로세스에 Task를 넘겨줍니다. 
 <br><br><br>
 ## 기술 스택
-- python 3.8
-- django 4.2
-- django rest framework 3.14
+- python : 3.8
+- django : 4.2
+- django rest framework : 3.14
 <br><br><br>
 ## 사용 방법
 
