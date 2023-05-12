@@ -11,8 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-import yaml
-
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,9 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-with open('./config.yaml') as f:
-    config = yaml.load(f, Loader=yaml.FullLoader)
-SECRET_KEY = config['django_secret_key']
+
+SECRET_KEY = str(os.getenv('django_secret_key'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

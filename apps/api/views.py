@@ -18,7 +18,7 @@ class AddSchedule(APIView):
         serializer = TagghistSerializer(data=request.data)
         if serializer.is_valid():
             data = serializer.data
-            
+
             # 폴더 생성
             local_path = make_original_folder(data['CORP_ID'], data['REG_DT'])
             
@@ -34,15 +34,17 @@ class AddSchedule(APIView):
             # 파일 검사
             result = check_file(local_file_path)
             if result[0] != "0110":
+                # 파일 검사 결과 데이터에 오류가 있으면 해당 에러코드 반환
                 return Response({"result": False,
                                  "error": result[1],
                                  "code": result[0]}, 
                                  status = status.HTTP_500_INTERNAL_SERVER_ERROR)
-            
+
             # mysql 접속 및 상태코드 변경
             connect_mysql_change_cd(data['CORP_ID'], data['UPLD_FILE_NM'], data['REG_DT'], data['MODEL_ID'], "0110")
+
             return Response({"result":True}, status = status.HTTP_200_OK)
         else:
             # request 데이터 형식이 맞지 않을 경우
             return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
-        
+
