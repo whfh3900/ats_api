@@ -2,12 +2,12 @@ import os
 import pandas as pd
 
 # 원본파일 저장경로 생성
-def make_original_folder(corp_id, reg_dt):
-    print(reg_dt, type(reg_dt))
-    path = "/home/manager/django_api/media/%s/%s"%(corp_id, reg_dt)
-    if not os.path.isdir(path):
-        os.makedirs(path)
-    return path
+def make_original_folder(corp_id):
+    local_path = os.getenv("local_path")
+    local_path = os.path.join(local_path, corp_id)
+    if not os.path.isdir(local_path):
+        os.makedirs(local_path)
+    return local_path
 
 # 파일 검사
 def check_file(path):
@@ -26,6 +26,5 @@ def check_file(path):
     
     # 데이터 길이 검사
     #################### 보류
-
     return ("0110" , "Sucess")
     
