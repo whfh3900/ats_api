@@ -24,7 +24,6 @@ def connect_mysql_change_cd(corp_id, updl_file_nm, model_id, prcs_cd):
 
     # select 조건문으로 찾은 pk가 1개일 경우 상태코드 수정
     assert len(seq_no) == 1, "해당 요청이 1개가 아닙니다. (%s, %s, %s)"%(corp_id, updl_file_nm, model_id)
-    
     query = "update TB_TAGG_HIST set PRCS_CD=%s where SEQ_NO=%s;"
     cursor.execute(query, (prcs_cd, seq_no[0]))
 

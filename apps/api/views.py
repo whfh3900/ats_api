@@ -3,9 +3,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import TagghistSerializer
-
+import os
 import sys
-sys.path.append('/home/manager/django_api') # 상위 디렉토리 추가
+sys.path.append(os.getenv("path")) # 상위 디렉토리 추가
 from connect_server import connect_mysql_change_cd, connect_ssh
 from utils import make_original_folder, check_file
 
@@ -43,7 +43,7 @@ class AddSchedule(APIView):
 
             # mysql 접속 및 상태코드 변경
             try:
-                connect_mysql_change_cd(data['CORP_ID'], data['UPLD_FILE_NM'], data['REG_DT'], data['MODEL_ID'], "0110")
+                connect_mysql_change_cd(data['CORP_ID'], data['UPLD_FILE_NM'], data['MODEL_ID'], "0110")
             except Exception as e:
                 # mysql 접속중 에러
                 return Response({"result": False,
