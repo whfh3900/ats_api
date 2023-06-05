@@ -4,8 +4,8 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-# mysql 접속 및 상태처리코드 수정하기
-def connect_mysql_change_cd(corp_id, updl_file_nm, model_id, prcs_cd):
+# mysql 접속 및 데이터 수정하기
+def connect_mysql_change_data(corp_id, updl_file_nm, model_id, data_cnt, prcs_cd):
 
     # mysql 접속
     connection = pymysql.connect(host=str(os.getenv("mysql_host")), 
@@ -22,10 +22,10 @@ def connect_mysql_change_cd(corp_id, updl_file_nm, model_id, prcs_cd):
     cursor.execute(query, (corp_id, updl_file_nm, model_id))
     seq_no = [int(row[0]) for row in cursor.fetchall()]
 
-    # select 조건문으로 찾은 pk가 1개일 경우 상태코드 수정
+    # select 조건문으로 찾은 pk가 1개일 경우 데이터 수정
     assert len(seq_no) == 1, "해당 요청이 1개가 아닙니다. (%s, %s, %s)"%(corp_id, updl_file_nm, model_id)
-    query = "update TB_TAGG_HIST set PRCS_CD=%s where SEQ_NO=%s;"
-    cursor.execute(query, (prcs_cd, seq_no[0]))
+    query = "update TB_TAGG_HIST set PRCS_CD=%s, DATA_CNT=%s where SEQ_NO=%s;"
+    cursor.execute(query, (prcs_cd, data_cnt, seq_no[0]))
 
     # 연결종료
     connection.commit()
@@ -72,7 +72,7 @@ if __name__ == '__main__':
     updl_file_nm = "test2321.csv"
     model_id = 'BLB_0.0.1'
     prcs_cd = "0110"
-    connect_mysql_change_cd(corp_id, updl_file_nm, model_id, prcs_cd)
+    connect_mysql_change_data(corp_id, updl_file_nm, model_id, prcs_cd)
         
     remote_file_path = "/path/to/test.csv"
     work='download'

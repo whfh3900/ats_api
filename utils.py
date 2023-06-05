@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 
-# 원본파일 저장경로 생성
+# local에 원본파일 저장경로 생성
 def make_original_folder(corp_id):
     local_path = os.getenv("local_path")
     local_path = os.path.join(local_path, corp_id)
@@ -15,6 +15,7 @@ def check_file(path):
     # 파일 인코딩 형식 검사
     try:
         df = pd.read_csv(path, encoding="utf-8-sig")
+        df_len = len(df)
     except UnicodeDecodeError as e:
         return ("0112", "다음의 인코딩 형식을 지원합니다.(utf-8)")
     
@@ -26,5 +27,5 @@ def check_file(path):
     
     # 데이터 길이 검사
     #################### 보류
-    return ("0110" , "Sucess")
+    return ("0110" , "Sucess", df_len)
     

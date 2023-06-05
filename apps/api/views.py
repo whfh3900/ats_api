@@ -6,7 +6,7 @@ from .serializers import TagghistSerializer
 import os
 import sys
 sys.path.append(os.getenv("path")) # 상위 디렉토리 추가
-from connect_server import connect_mysql_change_cd, connect_ssh
+from connect_server import connect_mysql_change_data, connect_ssh
 from utils import make_original_folder, check_file
 
 # Create your views here.
@@ -17,14 +17,15 @@ class AddSchedule(APIView):
         serializer = TagghistSerializer(data=request.data)
         if serializer.is_valid():
             data = serializer.data
-            print(data)
 
             # local 폴더 생성
             local_path = make_original_folder(data['CORP_ID'])
             
             # 파일 다운로드
             try:
-                local_file_path = connect_ssh(local_path, data['UPLD_FILE_NM'], work='download')
+                local_file_path = connect_ssh(local_path, 
+                                              data['UPLD_FILE_NM'], 
+                                              work='download')
             except Exception as e:
                 # 파일 다운로드 도중 오류가 있으면 해당 에러코드 반환
                 return Response({"result": False,
@@ -32,7 +33,7 @@ class AddSchedule(APIView):
                                  "code": "0111"}, 
                                  status = status.HTTP_400_BAD_REQUEST)
 
-            # 파일 검사
+            # 파일 검사 및 데이터 처리건수
             result = check_file(local_file_path)
             if result[0] != "0110":
                 # 파일 검사 결과 데이터에 오류가 있으면 해당 에러코드 반환
@@ -41,16 +42,20 @@ class AddSchedule(APIView):
                                  "code": result[0]}, 
                                  status = status.HTTP_400_BAD_REQUEST)
 
-            # mysql 접속 및 상태코드 변경
+            # mysql 접속 및 상태코드 변경 및 데이터 처리건수 추가
             try:
-                connect_mysql_change_cd(data['CORP_ID'], data['UPLD_FILE_NM'], data['MODEL_ID'], "0110")
+                connect_mysql_change_data(data['CORP_ID'], 
+                                          data['UPLD_FILE_NM'], 
+                                          data['MODEL_ID'], 
+                                          result[2], # data_cnt 
+                                          "0110")
             except Exception as e:
                 # mysql 접속중 에러
                 return Response({"result": False,
                                  "error": str(e),
                                  "code": "0114"}, 
                                  status = status.HTTP_400_BAD_REQUEST)
-                
+
             # 정상
             return Response({"result":True,
                              "error": None,

@@ -40,7 +40,6 @@
 			|:--------:|:-------------------------:|
 			| POST     | http://172.25.3.61/api/cf |
 		
-
 		- 4.0.2 data
 			| key 	 		| value   			   |
 			|:-------------:|:--------------------:|
@@ -77,7 +76,7 @@
 		```
 		
 	- 4.3. javaScript-Fetch
-		``` javaScript
+		``` java
 		var formdata = new FormData();
 		formdata.append("CORP_ID", "blabla2023");
 		formdata.append("MODEL_ID", "BLB_1.0.0");
@@ -96,7 +95,7 @@
 		```
 		
 	- 4.4. javaScript-jQuery
-		``` javaScript
+		``` java
 		var form = new FormData();
 		form.append("CORP_ID", "blabla2023");
 		form.append("MODEL_ID", "BLB_1.0.0");
@@ -118,7 +117,7 @@
 		```
 
 	- 4.5. javaScript-XHR
-		``` javaScript
+		``` java
 		// WARNING: For POST requests, body is set to null by browsers.
 		var data = new FormData();
 		data.append("CORP_ID", "blabla2023");
@@ -141,5 +140,3 @@
 
 ## License
 For open source projects, say how it is licensed.
-
-
