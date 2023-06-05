@@ -33,8 +33,8 @@ class AddSchedule(APIView):
                                  "code": "0111"}, 
                                  status = status.HTTP_400_BAD_REQUEST)
 
-            # 파일 검사 및 데이터 처리건수
-            result = check_file(local_file_path)
+            # 파일 검사 및 데이터 처리건수 반환
+            result = check_file(local_file_path, data['MODEL_ID'])
             if result[0] != "0110":
                 # 파일 검사 결과 데이터에 오류가 있으면 해당 에러코드 반환
                 return Response({"result": False,
