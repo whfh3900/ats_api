@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import dotenv
+dotenv.load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,7 +23,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-
 
 SECRET_KEY = str(os.getenv('django_secret_key'))
 
@@ -34,6 +35,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'rest_framework',
     "apps.api",
     "django.contrib.admin",
@@ -131,7 +133,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 MEDIA_ROOT = "media/"
 
 CORS_ALLOWED_ORIGINS = [
-    'http://172.25.3.51',
+    'http://172.25.0.11:8080',
 ]
 
 ############################### 추가적인 CORS 설정
@@ -139,7 +141,7 @@ CORS_ALLOWED_ORIGINS = [
 # CORS_ALLOW_ALL_METHODS = True
 
 # # 필요한 경우 추가적인 헤더를 허용
-CORS_ALLOW_HEADERS = [
+CORS_ALLOW_HEADERS = [    
     'access-control-allow-origin',
     # 'content-type',
 ]
